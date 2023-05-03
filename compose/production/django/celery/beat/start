@@ -5,4 +5,4 @@ set -o pipefail
 set -o nounset
 
 
-celery -A cride.taskapp beat -l INFO
+celery -A core.taskapp beat -l INFO

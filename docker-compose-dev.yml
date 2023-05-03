@@ -1,78 +1,84 @@
-version: '3.1'
+version: '3.8'
 
 networks:
   django-backend-net-local:
 
 volumes:
-  local_postgres_data:
-  local_postgres_data_backups:
+  local_postgresql:
+  local_postgresql_backups:
   pgdata:
     driver: local
 
-# services:
-#   django: &django
-#     build:
-#       context: .
-#       dockerfile: ./compose/local/django/Dockerfile
-#     image: local_django
-#     depends_on:
-#       - postgres
-#     volumes:
-#       - .:/app
-#     env_file:
-#       - ./.envs/.local/.django
-#       - ./.envs/.local/.postgres
-#     ports:
-#       - "8000:8000"
-#     command: /start
-#     networks:
-#       - backend-net-local
-
-  # postgres:
-  #   build:
-  #     context: .
-  #     dockerfile: ./compose/production/postgres/Dockerfile
-  #   image: postgres-database
-  #   ports:
-  #     - "5434:5432"
-  #   volumes:
-  #     - local_postgres_data:/var/lib/postgresql/data
-  #     - local_postgres_data_backups:/backups
-  #   env_file:
-  #     - ./.envs/.local/.postgres
-  #   networks:
-  #     - backend-net-local
-
 services:
-  django-backend:
+  django: &django
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    links:
-      - postgres:postgres
+    image: local_django
     depends_on:
       - postgres
     volumes:
       - .:/app:rw
-    ports:
-      - "8001:8000"
-    networks:
-      - django-backend-net-local
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
+    ports:
+      - "8001:8000"
+    command: /start
+    networks:
+      - django-backend-net-local
 
   postgres:
-    image: postgres:15-alpine
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: postgres-database
     ports:
       - "5434:5432"
     volumes:
-      - ./init/postgres:/docker-entrypoint-initdb.d:ro
-      - ./local_postgres_data:/var/lib/postgresql/data:rw
-      - ./local_postgres_data_backups:/backups
+      # - ./init/postgres:/docker-entrypoint-initdb.d:ro
+      - local_postgresql:/var/lib/postgresql/data:rw
+      - local_postgresql_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
     networks:
       - django-backend-net-local
 
 
+  redis:
+    image: redis:7.2-rc-alpine
+    networks:
+      - django-backend-net-local
+
+  celeryworker:
+    <<: *django
+    image: local_celeryworker
+    depends_on:
+      - redis
+      - postgres
+
+    ports: []
+    command: /start-celeryworker
+    networks:
+      - django-backend-net-local
+
+  celerybeat:
+    <<: *django
+    image: local_celerybeat
+    depends_on:
+      - redis
+      - postgres
+
+    ports: []
+    command: /start-celerybeat
+    networks:
+      - django-backend-net-local
+
+  flower:
+    <<: *django
+    image: local_flower
+    ports:
+      - "5555:5555"
+    command: /start-flower
+    networks:
+      - django-backend-net-local

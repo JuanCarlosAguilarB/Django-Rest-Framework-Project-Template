@@ -5,4 +5,4 @@ set -o pipefail
 set -o nounset
 
 
-celery -A cride.taskapp worker -l INFO
+celery -A core.taskapp worker -l INFO

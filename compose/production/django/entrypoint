@@ -1,5 +1,18 @@
 #!/bin/sh
 
+
+# La línea "set -o errexit" se utiliza para establecer la opción de shell "errexit",
+#  lo que significa que el script se detendrá inmediatamente si alguna de las instrucciones
+#  del script falla o retorna un valor distinto de cero.
+
+# La línea "set -o pipefail" establece la opción de shell "pipefail", lo que
+# significa que si una de las instrucciones del script falla, la ejecución se
+#  detendrá inmediatamente y se devolverá el valor de salida del comando que falló.
+
+# La línea "set -o nounset" establece la opción de shell "nounset", lo que significa
+# que si el script intenta utilizar una variable que no ha sido
+#  inicializada o definida, se detendrá inmediatamente.
+
 set -o errexit
 set -o pipefail
 set -o nounset
@@ -26,7 +39,7 @@ try:
         user="${POSTGRES_USER}",
         password="${POSTGRES_PASSWORD}",
         host="${POSTGRES_HOST}",
-        port=5434,
+        port="${POSTGRES_PORT}",
     )
 except psycopg2.OperationalError:
     sys.exit(-1)
