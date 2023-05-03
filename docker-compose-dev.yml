@@ -1,0 +1,78 @@
+version: '3.1'
+
+networks:
+  django-backend-net-local:
+
+volumes:
+  local_postgres_data:
+  local_postgres_data_backups:
+  pgdata:
+    driver: local
+
+# services:
+#   django: &django
+#     build:
+#       context: .
+#       dockerfile: ./compose/local/django/Dockerfile
+#     image: local_django
+#     depends_on:
+#       - postgres
+#     volumes:
+#       - .:/app
+#     env_file:
+#       - ./.envs/.local/.django
+#       - ./.envs/.local/.postgres
+#     ports:
+#       - "8000:8000"
+#     command: /start
+#     networks:
+#       - backend-net-local
+
+  # postgres:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/production/postgres/Dockerfile
+  #   image: postgres-database
+  #   ports:
+  #     - "5434:5432"
+  #   volumes:
+  #     - local_postgres_data:/var/lib/postgresql/data
+  #     - local_postgres_data_backups:/backups
+  #   env_file:
+  #     - ./.envs/.local/.postgres
+  #   networks:
+  #     - backend-net-local
+
+services:
+  django-backend:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    links:
+      - postgres:postgres
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app:rw
+    ports:
+      - "8001:8000"
+    networks:
+      - django-backend-net-local
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./init/postgres:/docker-entrypoint-initdb.d:ro
+      - ./local_postgres_data:/var/lib/postgresql/data:rw
+      - ./local_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.local/.postgres
+    networks:
+      - django-backend-net-local
+
+

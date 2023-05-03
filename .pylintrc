@@ -1,0 +1,28 @@
+[MASTER]
+load-plugins = pylint_common, pylint_django, pylint_celery
+
+[FORMAT]
+# Personalizar el estilo de código para cumplir con PEP 8
+max-line-length = 79
+indent-size=4
+variable-rgx=[a-z_][a-zA-Z0-9_]{0,30}$
+
+[MESSAGES CONTROL]
+disable = missing-docstring
+# Especificar una lista personalizada de comprobaciones para ejecutar
+enable=bad-indentation, missing-docstring, too-many-lines, invalid-name
+
+[DESIGN]
+max-parents = 13
+
+[TYPECHECK]
+generated-members = REQUEST, acl_users, aq_parent, "[a-zA-Z]+_set{1,2}", save, delete
+# Habilitar verificación específica de Django
+django-settings-module=config.settings
+# Deshabilitar verificación específica de Django
+ignore-module=django
+
+[BASIC]
+# Deshabilitar comprobaciones redundantes
+const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+old-style-class=0
