@@ -24,6 +24,8 @@ media
 *.so
 
 # Distribution / packaging
+.vscode/
+.vscode/*
 .Python
 build/
 develop-eggs/
