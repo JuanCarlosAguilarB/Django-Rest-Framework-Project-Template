@@ -4,7 +4,8 @@ import os
 import environ
 import psycopg2.extensions
 from corsheaders.defaults import default_headers
-
+from channels.routing import ProtocolTypeRouter
+from django.core.asgi import get_asgi_application
 
 # instanciamos objeto para lectura de variables de entorno
 env = environ.Env()
@@ -31,6 +32,7 @@ else:
 # Application definition
 
 DJANGO_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +43,7 @@ DJANGO_APPS = [
 
 
 THIRD_APPS = [
+    'channels',
     'corsheaders',
     'rest_framework',
     'ckeditor',
@@ -285,3 +288,18 @@ if not DEBUG:
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
     DEFAULT_FILE_STORAGE = 'core.storage_backends.MediaStore'
+
+
+# django channels settings
+ASGI_APPLICATION = 'core.asgi.application'
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {'hosts': [('localhost', 6379)]},
+#     },
+# }
+
+
+
+

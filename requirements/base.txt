@@ -46,3 +46,5 @@ python-social-auth==0.3.6
 social-auth-app-django==5.2.0
 social-auth-core==4.4.2
 whitenoise==6.4.0
+channels_redis
+channels["daphne"]
