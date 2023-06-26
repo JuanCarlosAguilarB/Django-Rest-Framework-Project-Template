@@ -34,7 +34,7 @@ Antes de comenzar a utilizar este proyecto, asegúrese de tener instalado lo sig
     ├── requirements.txt (requirements for Django)
     ├── docker-compose-dev.yml (docker-compose file for development)
     ├── docker-compose-prod.yml (docker-compose file for production)
-    
+
 ```
 
 ## Configuración del proyecto
@@ -51,7 +51,7 @@ Antes de comenzar a utilizar este proyecto, asegúrese de tener instalado lo sig
 
 ```
     docker-compose -f docker-compose-dev.yml build
-    docker-compose -f docker-compose-dev.yml up
+    docker-compose -f docker-compose-dev.yml up -d
 ```
 
 ## Uso del proyecto
@@ -62,7 +62,7 @@ Para acceder a la línea de comandos de Django dentro del contenedor de Docker, 
 
 Para ver el nombre del contenedor del proyecto de Django:
 ```
-docker ps 
+docker ps
 ```
 
 Con el nombre del proyecto de Django, ejecutar el siguiente comando:

@@ -32,7 +32,7 @@ else:
 # Application definition
 
 DJANGO_APPS = [
-    'daphne',
+    # 'daphne', # is a HTTP, HTTP2 and WebSocket protocol
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,10 +58,13 @@ THIRD_APPS = [
     'django_extensions',  # for django shell_plus
 ]
 
-PROJECT_APPS = [
+# Obtiene la ruta completa de la carpeta "apps"
+apps_dir = os.path.join(BASE_DIR.parent, 'apps')
 
-]
-
+# Obtiene una lista de nombres de las aplicaciones dentro de la carpeta "apps"
+PROJECT_APPS = [f"apps.{name}" for name in os.listdir(
+    apps_dir) if os.path.isdir(os.path.join(apps_dir, name))]
+PROJECT_APPS = []
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + PROJECT_APPS
 
 # configuracion ckeditor
@@ -112,6 +115,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# deafault database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 DATABASES = {
     'default': {
@@ -299,7 +309,3 @@ ASGI_APPLICATION = 'core.asgi.application'
 #         'CONFIG': {'hosts': [('localhost', 6379)]},
 #     },
 # }
-
-
-
-
