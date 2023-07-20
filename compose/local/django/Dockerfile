@@ -21,6 +21,8 @@ RUN pip install --no-cache-dir -r /requirements/base.txt
 # having to install all the packages from scratch in case of having a new library
 RUN pip install --no-cache-dir -r /requirements/local.txt
 
+RUN pip install -U channels["daphne"]
+
 # "RUN sed -i 's/\r//' /entrypoint", utiliza el comando "sed"
 #  para eliminar los caracteres de retorno de carro (representados por "\r") del archivo
 #  "/entrypoint". Esto se hace porque los archivos pueden tener diferentes formatos de final
