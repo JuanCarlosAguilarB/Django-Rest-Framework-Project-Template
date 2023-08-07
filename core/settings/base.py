@@ -64,7 +64,9 @@ apps_dir = os.path.join(BASE_DIR.parent, 'apps')
 # Obtiene una lista de nombres de las aplicaciones dentro de la carpeta "apps"
 PROJECT_APPS = [f"apps.{name}" for name in os.listdir(
     apps_dir) if os.path.isdir(os.path.join(apps_dir, name))]
-PROJECT_APPS = []
+
+# PROJECT_APPS = []
+
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + PROJECT_APPS
 
 # configuracion ckeditor
