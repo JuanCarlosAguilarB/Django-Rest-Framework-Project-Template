@@ -1,9 +1,10 @@
+from apps.user.serializers import ListUserSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import views, permissions, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from drf_yasg.utils import swagger_auto_schema
+# from drf_yasg.utils import swagger_auto_schema
 
 from .serializers import ObtainTokenSerializer
 from .authentication import JWTAuthentication
@@ -228,7 +229,7 @@ class TokenObtainExtraDetailsView(ObtainUserLoginMiddleware,
         respose = {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
-            'extra_info': 'This is extra info'
+            # 'extra_info': 'This is extra info'
         }
         return respose
 
@@ -255,5 +256,5 @@ class TokenObtainExtraDetailsView(ObtainUserLoginMiddleware,
                             status=status.HTTP_400_BAD_REQUEST)
 
         respose = self.get_tokens_for_user(user)
-
+        respose['user'] = ListUserSerializer(user).data
         return Response(respose, status=status.HTTP_200_OK)

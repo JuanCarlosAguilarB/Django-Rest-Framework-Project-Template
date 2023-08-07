@@ -1,5 +1,5 @@
 # Python
-import json
+# import json
 
 # Django
 from django.utils.translation import gettext_lazy as _
@@ -13,35 +13,41 @@ from apps.user.models import User
 
 
 class ListUserSerializer(serializers.ModelSerializer):
-    """ 
+    """
     serializers for list all users
     """
+    full_name = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         exclude = ('password', 'user_permissions', 'is_superuser',
                    'last_login', 'is_staff', 'is_active', 'groups')
 
+    def get_full_name(self, obj):
+        first_name = obj.first_name or ''
+        last_name = obj.last_name or ''
+        return f'{first_name} {last_name}'
+
 
 class CreateUserSerializer(serializers.ModelSerializer):
-    """ 
-    serializers for create an user with corfimn password 
+    """
+    serializers for create an user with corfimn password
     """
 
     # field by verify password
     password2 = serializers.CharField(write_only=True)
 
     def validate_password2(self, value):
-        """ 
-        Funtion for validate password 
+        """
+        Funtion for validate password
         """
 
         if value != self.context["password"]:
             raise serializers.ValidationError(_("password don't match"))
 
     def create(self, validated_data):
-        """ 
-        Funtion for to create a user 
+        """
+        Funtion for to create a user
         """
         validated_data.pop("password2")
 
