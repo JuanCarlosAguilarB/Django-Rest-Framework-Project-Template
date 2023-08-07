@@ -3,4 +3,4 @@ from apps.user import models
 
 
 admin.site.register(models.Countries)
-admin.site.register(models.UserAuth)
+admin.site.register(models.User)

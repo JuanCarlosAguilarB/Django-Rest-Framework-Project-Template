@@ -11,16 +11,16 @@ from rest_framework.test import APIClient
 from rest_framework import status
 
 # Models
-from apps.user.models import UserAuth
+from apps.user.models import User
 
 
 from django.contrib.auth.hashers import make_password
 
 
 class UserTestCase(TestCase):
-    
+
     def setUp(self):
-        user = UserAuth(
+        user = User(
             email='admin@gmail.com',
             first_name='Testing',
             last_name='Testing',
@@ -40,7 +40,7 @@ class UserTestCase(TestCase):
 
         client = APIClient()
         response = client.post(
-                '/api/v1/users/signup/', {
+            '/api/v1/users/signup/', {
                 'email': 'testing@cosasdedevs.com',
                 'password': 'rc{4@qHjR>!b`yAV',
                 'password2': 'rc{4@qHjR>!b`yAV',
@@ -56,8 +56,8 @@ class UserTestCase(TestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        
-        user_info = json.loads(response.content) 
+
+        user_info = json.loads(response.content)
         self.assertEqual(user_info['email'], "testing@cosasdedevs.com")
         # self.assertEqual(user_info['password'], make_password('rc{4@qHjR>!b`yAV'))
         self.assertEqual(user_info['first_name'], "Testing")
@@ -65,13 +65,12 @@ class UserTestCase(TestCase):
         self.assertEqual(user_info['phone'], "999888777")
         self.assertEqual(user_info['username'], "testing1")
 
-    
     def test_login_UserAuth(self):
         """Check if we can log in the page"""
 
         client = APIClient()
         response = client.post(
-                '/login', {
+            '/login', {
                 'email': 'admin@gmail.com',
                 'password': 'F12345678@',
             },
@@ -80,5 +79,3 @@ class UserTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         result = json.loads(response.content)
         self.assertIn('access', result)
-        
-        

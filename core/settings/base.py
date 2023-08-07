@@ -65,6 +65,9 @@ apps_dir = os.path.join(BASE_DIR.parent, 'apps')
 PROJECT_APPS = [f"apps.{name}" for name in os.listdir(
     apps_dir) if os.path.isdir(os.path.join(apps_dir, name))]
 
+# add user model custom
+AUTH_USER_MODEL = "user.User"
+
 # PROJECT_APPS = []
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + PROJECT_APPS
