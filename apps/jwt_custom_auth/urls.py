@@ -8,9 +8,9 @@ from rest_framework_simplejwt.views import (
 from .views import TokenObtainExtraDetailsView
 
 urlpatterns = [
-    path('api/token-extra/', TokenObtainExtraDetailsView.as_view(),
+    path('api/token/', TokenObtainExtraDetailsView.as_view(),
          name='token_obtain_pair-extra'),
-    path('api/token/', TokenObtainPairView.as_view(),
+    path('api/token-simple/', TokenObtainPairView.as_view(),
          name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(),
          name='token_refresh'),
