@@ -1,4 +1,4 @@
-# -r ./base.txt
+-r ./base.txt
 
 
 # executing==1.2.0
@@ -34,7 +34,6 @@
 # pep8==1.7.1
 # pexpect==4.8.0
 # pickleshare==0.7.5
-# Pillow==9.5.0
 # pkginfo==1.9.6
 # platformdirs==2.6.2
 # poetry==1.4.2
