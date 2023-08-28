@@ -7,7 +7,7 @@ echo "---apply database migrations---"
 
 # create superuser by default
 echo "---create superuser---"
-echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'Admin12345678#')" | python manage.py shell --settings=core.settings.local
+echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin@example.com', 'Admin12345678#')" | python manage.py shell --settings=core.settings.local
 
 # runserver
 echo "---run server---"

@@ -9,6 +9,7 @@ from django.core.asgi import get_asgi_application
 
 # instanciamos objeto para lectura de variables de entorno
 env = environ.Env()
+env_aux = os.environ
 environ.Env.read_env()
 
 

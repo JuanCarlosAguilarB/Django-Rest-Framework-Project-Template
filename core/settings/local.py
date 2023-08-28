@@ -1,7 +1,7 @@
 # """Development settings."""
 
 from .base import *  # NOQA
-from .base import env
+from .base import env, env_aux
 
 # Base
 DEBUG = True
@@ -11,6 +11,12 @@ ALLOWED_HOSTS = [
     "0.0.0.0",
     "127.0.0.1",
 ]
+
+RENDER_EXTERNAL_HOSTNAME = env_aux.get('RENDER_EXTERNAL_HOSTNAME', None)
+
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS += [RENDER_EXTERNAL_HOSTNAME]
+
 
 # Cache
 CACHES = {
